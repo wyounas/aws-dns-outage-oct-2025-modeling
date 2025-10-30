@@ -1,5 +1,4 @@
 /* 
-/* 
  * AWS DynamoDB DNS Race Condition - Promela Model
  * 
  * Models the October 2025 AWS DynamoDB outage caused by a race condition
