@@ -128,3 +128,8 @@ active [NUM_ENACTORS] proctype Enactor() {
 ltl no_dns_deletion_on_regression {
     [] ( (initialized && highest_plan_applied > current_plan && current_plan > 0) -> dns_valid )
 }
+
+/* Active plan must never be marked deleted */
+ltl never_delete_active {
+    [] ( current_plan > 0 -> !plan_deleted[current_plan] )
+}

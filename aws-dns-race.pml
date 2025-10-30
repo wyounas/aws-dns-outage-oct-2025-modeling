@@ -1,10 +1,11 @@
 /* 
+/* 
  * AWS DynamoDB DNS Race Condition - Promela Model
  * 
  * Models the October 2025 AWS DynamoDB outage caused by a race condition
  * in the DNS management system. 
 
-To run:
+To run (with Spin Version 6.5.2):
 
 # 1) Generate the verifier from the Promela model
 spin -a aws-dns-race.pml
@@ -16,7 +17,8 @@ gcc -O2 -o pan pan.c
 ./pan -a -N no_dns_deletion_on_regression
 
 # 4) Replay the counterexample with variable values
-spin -t -p  aws-dns-race.pml.trail aws-dns-race.pml
+spin -t -p -g -l -k aws-dns-race.pml.trail aws-dns-race.pml
+
 
 
  */
@@ -166,4 +168,9 @@ active [NUM_ENACTORS] proctype Enactor() {
 
 ltl no_dns_deletion_on_regression {
     [] ( (initialized && highest_plan_applied > current_plan && current_plan > 0) -> dns_valid )
+}
+
+/* Active plan must never be marked deleted */
+ltl never_delete_active {
+    [] ( current_plan > 0 -> !plan_deleted[current_plan] )
 }
