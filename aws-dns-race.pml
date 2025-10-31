@@ -160,7 +160,7 @@ active [NUM_ENACTORS] proctype Enactor() {
 }
 
 /* 
- * Invariant
+ * Invariants
  * 
  */
 
